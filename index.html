@@ -86,56 +86,54 @@
 </head>
 <body>
     <h1>Aide Sociale</h1>
-    <title>Aide Sociale</title>
-</head>
-<body>
+
     <!-- Page de connexion/inscription -->
     <div id="login-page">
         <h2>Connexion</h2>
-        <form>
+        <form action="login.php" method="POST">
             <label for="username">Nom d'utilisateur:</label>
-            <input type="text" id="username" name="username"><br><br>
+            <input type="text" id="username" name="username" required><br><br>
 
             <label for="password">Mot de passe:</label>
-            <input type="password" id="password" name="password"><br><br>
+            <input type="password" id="password" name="password" required><br><br>
 
-            <button type="submit">Valider</button>
+            <button type="submit" name="login">Se connecter</button>
         </form>
 
         <hr>
 
         <h2>Inscription</h2>
-        <form>
+        <form action="register.php" method="POST">
             <label for="reg-username">Nom d'utilisateur:</label>
-            <input type="text" id="reg-username" name="reg-username"><br><br>
+            <input type="text" id="reg-username" name="reg-username" required><br><br>
 
             <label for="first-name">Prénom:</label>
-            <input type="text" id="first-name" name="first-name"><br><br>
+            <input type="text" id="first-name" name="first-name" required><br><br>
 
             <label for="last-name">Nom:</label>
-            <input type="text" id="last-name" name="last-name"><br><br>
+            <input type="text" id="last-name" name="last-name" required><br><br>
 
             <label for="reg-password">Mot de passe:</label>
-            <input type="password" id="reg-password" name="reg-password"><br><br>
+            <input type="password" id="reg-password" name="reg-password" required><br><br>
 
             <label for="confirm-password">Confirmation de mot de passe:</label>
-            <input type="password" id="confirm-password" name="confirm-password"><br><br>
+            <input type="password" id="confirm-password" name="confirm-password" required><br><br>
 
-            <button type="submit">Valider</button>
+            <button type="submit" name="register">S'inscrire</button>
         </form>
     </div>
 
     <!-- Page du profil -->
     <div id="profile-page" style="display: none;">
         <h2>Profil</h2>
-        <p>Nom d'utilisateur: <span id="profile-username"></span></p>
-        <p>ID de connexion: <span id="profile-id"></span></p>
+        <p>Nom d'utilisateur: <span id="profile-username"><?php echo $username; ?></span></p>
+        <p>ID de connexion: <span id="profile-id"><?php echo $userId; ?></span></p>
     </div>
 
     <!-- Dashboard -->
     <div id="dashboard" style="display: none;">
         <h2>Dashboard</h2>
-        <form>
+        <form action="investment.php" method="POST">
             <label for="investment-amount">Montant de l'investissement:</label>
             <select id="investment-amount" name="investment-amount">
                 <option value="5000">5000 FCFA</option>
@@ -151,21 +149,21 @@
     <!-- Fusion avec un autre utilisateur -->
     <div id="fusion-page" style="display: none;">
         <h2>Fusion avec un autre utilisateur</h2>
-        <p>Nom: <span id="fusion-name"></span></p>
-        <p>Numéro Mobile Money: <span id="fusion-mobile-money"></span></p>
+        <p>Nom: <span id="fusion-name"><?php echo $fusionName; ?></span></p>
+        <p>Numéro Mobile Money: <span id="fusion-mobile-money"><?php echo $mobileMoneyNumber; ?></span></p>
         <button id="confirm-fusion">Confirmer</button>
     </div>
 
     <!-- Compte à rebours -->
     <div id="countdown" style="display: none;">
         <h2>Compte à rebours</h2>
-        <p>Temps restant: <span id="countdown-timer"></span></p>
+        <p>Temps restant: <span id="countdown-timer"><?php echo $countdownTime; ?></span></p>
     </div>
 
     <!-- Mobile Money -->
     <div id="mobile-money" style="display: none;">
         <h2>Mobile Money</h2>
-        <form>
+        <form action="mobilemoney.php" method="POST">
             <label for="money-provider">Fournisseur de Mobile Money:</label>
             <select id="money-provider" name="money-provider">
                 <option value="orange-money">Orange Money</option>
@@ -173,7 +171,7 @@
             </select><br><br>
 
             <label for="money-number">Numéro de Mobile Money:</label>
-            <input type="text" id="money-number" name="money-number"><br><br>
+            <input type="text" id="money-number" name="money-number" required><br><br>
 
             <button type="submit">Valider</button>
         </form>
@@ -186,48 +184,189 @@
     </div>
 
     <!-- FAQ -->
-    <div id="faq" style="display: none;">
-        <h2>FAQ</h2>
-        <p>Questions fréquemment posées et réponses.</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Aide Sociale</title>
+    <style>
+        /* Styles CSS personnalisés */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-transform: uppercase;
+            font-size: 50px;
+            text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            background: linear-gradient(to right, #FF00CC, #3333FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 200px;
+            margin-bottom: 12px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ccc;
+        }
+
+        #logout-button {
+            margin-top: 20px;
+            background-color: #f44336;
+        }
+
+        /* Couleurs personnalisées */
+        #login-page,
+        #profile-page,
+        #dashboard,
+        #fusion-page,
+        #countdown,
+        #mobile-money,
+        #about,
+        #faq {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Aide Sociale</h1>
+
+    <!-- Page de connexion/inscription -->
+    <div id="login-page">
+        <h2>Connexion</h2>
+        <form action="login.php" method="POST">
+            <label for="username">Nom d'utilisateur:</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <button type="submit" name="login">Se connecter</button>
+        </form>
+
+        <hr>
+
+        <h2>Inscription</h2>
+        <form action="register.php" method="POST">
+            <label for="reg-username">Nom d'utilisateur:</label>
+            <input type="text" id="reg-username" name="reg-username" required><br><br>
+
+            <label for="first-name">Prénom:</label>
+            <input type="text" id="first-name" name="first-name" required><br><br>
+
+            <label for="last-name">Nom:</label>
+            <input type="text" id="last-name" name="last-name" required><br><br>
+
+            <label for="reg-password">Mot de passe:</label>
+            <input type="password" id="reg-password" name="reg-password" required><br><br>
+
+            <label for="confirm-password">Confirmation de mot de passe:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required><br><br>
+
+            <button type="submit" name="register">S'inscrire</button>
+        </form>
     </div>
 
-    <!-- Bouton de déconnexion -->
-    <button id="logout-button" style="display: none;">Déconnexion</button>
+    <!-- Page du profil -->
+    <div id="profile-page" style="display: none;">
+        <h2>Profil</h2>
+        <p>Nom d'utilisateur: <span id="profile-username"><?php echo $username; ?></span></p>
+        <p>ID de connexion: <span id="profile-id"><?php echo $userId; ?></span></p>
+    </div>
 
-    <script>
-        // Code JavaScript pour gérer les interactions et les changements de page
-        // ...
+    <!-- Dashboard -->
+    <div id="dashboard" style="display: none;">
+        <h2>Dashboard</h2>
+        <form action="investment.php" method="POST">
+            <label for="investment-amount">Montant de l'investissement:</label>
+            <select id="investment-amount" name="investment-amount">
+                <option value="5000">5000 FCFA</option>
+                <option value="10000">10000 FCFA</option>
+                <option value="20000">20000 FCFA</option>
+                <option value="50000">50000 FCFA</option>
+            </select><br><br>
 
-        // Exemple de fonction pour changer de page
-        function goToProfilePage() {
-            document.getElementById("login-page").style.display = "none";
-            document.getElementById("profile-page").style.display = "block";
-        }
-    </script>
-</body>
-</html>
->
+            <button type="submit">Investir</button>
+        </form>
+    </div>
 
-    <script>
-        // Code JavaScript pour gérer les interactions et les changements de page
-        // ...
+    <!-- Fusion avec un autre utilisateur -->
+    <div id="fusion-page" style="display: none;">
+        <h2>Fusion avec un autre utilisateur</h2>
+        <p>Nom: <span id="fusion-name"><?php echo $fusionName; ?></span></p>
+        <p>Numéro Mobile Money: <span id="fusion-mobile-money"><?php echo $mobileMoneyNumber; ?></span></p>
+        <button id="confirm-fusion">Confirmer</button>
+    </div>
 
-        // Exemple de fonction pour changer de page
-        function goToProfilePage() {
-            document.getElementById("login-page").style.display = "none";
-            document.getElementById("profile-page").style.display = "block";
-            document.getElementById("dashboard").style.display = "none";
-            document.getElementById("fusion-page").style.display = "none";
-            document.getElementById("countdown").style.display = "none";
-            document.getElementById("mobile-money").style.display = "none";
-            document.getElementById("about").style.display = "none";
-            document.getElementById("faq").style.display = "none";
-            document.getElementById("logout-button").style.display = "block";
-        }
+    <!-- Compte à rebours -->
+    <div id="countdown" style="display: none;">
+        <h2>Compte à rebours</h2>
+        <p>Temps restant: <span id="countdown-timer"><?php echo $countdownTime; ?></span></p>
+    </div>
 
-        // Fonctions pour les autres pages (à compléter)
-        // ...
-    </script>
-</body>
-</html>
+    <!-- Mobile Money -->
+    <div id="mobile-money" style="display: none;">
+        <h2>Mobile Money</h2>
+        <form action="mobilemoney.php" method="POST">
+            <label for="money-provider">Fournisseur de Mobile Money:</label>
+            <select id="money-provider" name="money-provider">
+                <option value="orange-money">Orange Money</option>
+                <option value="moov-money">Moov Money</option>
+            </select><br><br>
 
+            <label for="money-number">Numéro de Mobile Money:</label>
+            <input type="text" id="money-number" name="money-number" required><br><br>
+
+            <button type="submit">Valider</button>
+        </form>
+    </div>
+
+    <!-- À propos -->
+    <div id="about" style="display: none;">
+        <h2>À propos</h2>
+        <p>Informations sur le site d'Aide Sociale.</p>
+    </div>
+
+    <!-- FAQ -->
